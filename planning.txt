@@ -1,0 +1,115 @@
+1 evening
+API:
+1) data scv shoudl be put to db..which one NoSQl or SQL? consider that there would be query for long and lat as well as datetime.
+12748986 records
+-73.971176147460938 * 10000000 = -739711761.475
+40.762428283691406
+Deg*100 (SMALLINT) -- you take the lat/lng, multiply by 100, round, and store into a SMALLINT. That will take 2 bytes for each dimension, for a total of 4 bytes. Two items might be 1570 meters apart, but register as having the same latitude and longitude.
+
+http://mysql.rjweb.org/doc.php/latlng
+
+
+Insights: parse CSV to SQl with following logic
+for each zoom level rounded gpsdata? long8 -73.97  long7 -73.9711 long6 -73.97117
+
+2) what api would it be? 
+Zoom level, long and lat 
+need screen size to get all corners we are showing
+how to combine? round to sec?
+
+3)what use to WEb? AGM?
+AGm has zoom level and showing markers. 
+point- need css style or png
+
+fitBounds
+Type : google.maps.LatLngBoundsLiteral | google.maps.LatLngBounds | boolean
+Default value : false
+Defined in packages/core/src/lib/directives/map.ts:288
+Sets the viewport to contain the given bounds. If this option to true, the bounds get automatically computed from all elements that use the AgmFitBounds directive.
+
+
+var markers = [];
+
+function showMarkers() {
+
+    for (var i = 0; i < markers.length; i++) {
+
+        markers[i].setMap(null);
+    }
+
+    var bounds = map.getBounds();
+
+    // Call you server with ajax passing it the bounds
+    // In the ajax callback delete the current markers and add new markers
+
+    var southWest = bounds.getSouthWest();
+    var northEast = bounds.getNorthEast();
+
+    $.ajax({
+
+        url: 'your_backend_page.php',
+        cache: false,
+        data: {
+            'fromlat': southWest.lat(),
+            'tolat': northEast.lat(),
+            'fromlng': southWest.lng(),
+            'tolng': northEast.lng()
+        },
+
+        dataType: 'json',
+        type: 'GET',
+
+        async: false,
+
+        success: function (data) {
+
+            if (data) {
+
+                $.each(data, function (i, item) {
+
+                    createMarker(item);
+                });
+            }
+        }
+    });
+}
+
+function createMarker(item) {
+
+    var marker = new google.maps.Marker({
+        position: new google.maps.LatLng(item.lat, item.lng),
+        map: map,
+        draggable: false
+    });
+
+    markers.push(marker);
+    marker.setMap(map);
+}
+
+
+
+
+evening 2
+create parser TyneParser looks like a good candidate.
+I will create it as a console app for easy reusage or convertion to a worker later on.
+
+add model . I will create a separate ViewModel for Angular as I do want to get all the data from CSV.
+
+
+add DbContext for trips as it needs to save data somewhere
+add autorization to protect API
+add GPS service which incapsulate all logic around getting GPS data it would be the main candidate for unit testing coverage in future
+
+write service logic
+
+
+evening 3
+
+couple with round changes
+
+integration tests
+
+
+
+
+
