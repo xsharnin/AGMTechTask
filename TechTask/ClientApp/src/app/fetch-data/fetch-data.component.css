@@ -1,0 +1,11 @@
+agm-map {
+  height: 500px;
+}
+
+.map-icon-label .map-icon {
+  font-size: 11px;
+  color: #FFFFFF;
+  line-height: 10px;
+  text-align: center;
+  white-space: nowrap;
+}

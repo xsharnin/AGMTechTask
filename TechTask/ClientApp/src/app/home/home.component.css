@@ -1,0 +1,16 @@
+agm-map {
+  height: 500px;
+}
+.block {
+  transform: rotate(-30deg);
+}
+.label  {
+  font-size: 11px;
+  color: red;
+  line-height: 10px;
+  text-align: center;
+  white-space: nowrap;
+  background-color:black
+}
+
+

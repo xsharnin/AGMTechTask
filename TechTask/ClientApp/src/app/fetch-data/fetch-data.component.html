@@ -1,0 +1,23 @@
+<h1 id="tableLabel">GPSPoints</h1>
+
+<p *ngIf="!markers"><em>Loading...</em></p>
+
+<!-- this creates a google map on the page with the given lat/lng from -->
+<!-- the component as the initial center of the map: -->
+<agm-map
+         [latitude]="lat"
+         [longitude]="lng"
+         [zoom]="zoom"
+         [fitBounds]="fitBounds"
+         (zoomChange)="zoomChange($event)"
+         (boundsChange)="boundsChange($event)"
+         (centerChanged)="centerChanged($event)"
+         (mapReady)="mapReady($event)"
+         (idle)="idle()"
+         >
+  <agm-marker *ngFor="let marker of markers; let i = index"
+      [latitude]="marker.lat"
+      [longitude]="marker.lng"
+      [iconUrl]="">
+  </agm-marker>
+</agm-map>
